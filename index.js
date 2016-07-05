@@ -20,55 +20,7 @@ export default React.createClass({
   },
 
   renderScene(route, nav) {
-    switch (route.id) {
-    case 'simple':
-      return <SimpleExample />;
-    case 'scrollable':
-      return <ScrollableTabsExample />;
-    case 'overlay':
-      return <OverlayExample />;
-    case 'facebook':
-      return <FacebookExample />;
-    case 'dynamic':
-      return <DynamicExample />;
-    default:
-      return <View style={styles.container}>
-        <TouchableOpacity
-          style={styles.button}
-          onPress={() => nav.push({id: 'simple', })}
-        >
-          <Text>Simple example</Text>
-        </TouchableOpacity>
-
-        <TouchableOpacity
-          style={styles.button}
-          onPress={() => nav.push({id: 'scrollable', })}
-        >
-          <Text>Scrollable tabs example</Text>
-        </TouchableOpacity>
-
-        <TouchableOpacity
-          style={styles.button}
-          onPress={() => nav.push({id: 'overlay', })}
-        >
-          <Text>Overlay example</Text>
-        </TouchableOpacity>
-
-        <TouchableOpacity
-          style={styles.button}
-          onPress={() => nav.push({id: 'facebook', })}
-        >
-          <Text>Facebook tabs example</Text>
-        </TouchableOpacity>
-
-        <TouchableOpacity
-          style={styles.button}
-          onPress={() => nav.push({id: 'dynamic', })}
-        >
-          <Text>Dynamic tabs example</Text>
-        </TouchableOpacity>
-      </View>;
-    }
+    return <FacebookExample />;
   },
 });
 

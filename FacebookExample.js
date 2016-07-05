@@ -14,7 +14,7 @@ export default React.createClass({
     return <ScrollableTabView
       style={{marginTop: 20, }}
       tabBarPosition={'bottom'}
-      initialPage={1}
+      initialPage={0}
       renderTabBar={() => <FacebookTabBar />}
       >
       <ScrollView tabLabel="ios-paper" style={styles.tabView}>
@@ -22,22 +22,22 @@ export default React.createClass({
           <Text>News</Text>
         </View>
       </ScrollView>
-      <ScrollView tabLabel="ios-people" style={styles.tabView}>
+      <ScrollView tabLabel="ios-chatbubbles" style={styles.tabView}>
         <View style={styles.card}>
           <Text>Friends</Text>
         </View>
       </ScrollView>
-      <ScrollView tabLabel="ios-chatboxes" style={styles.tabView}>
+      <ScrollView tabLabel="ios-leaf" style={styles.tabView}>
         <View style={styles.card}>
           <Text>Messenger</Text>
         </View>
       </ScrollView>
-      <ScrollView tabLabel="ios-notifications" style={styles.tabView}>
+      <ScrollView tabLabel="ios-people" style={styles.tabView}>
         <View style={styles.card}>
           <Text>Notifications</Text>
         </View>
       </ScrollView>
-      <ScrollView tabLabel="ios-list" style={styles.tabView}>
+      <ScrollView tabLabel="ios-contact" style={styles.tabView}>
         <View style={styles.card}>
           <Text>Other nav</Text>
         </View>
