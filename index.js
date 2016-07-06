@@ -8,7 +8,7 @@ import {
   TouchableOpacity,
 } from 'react-native';
 
-import FacebookExample from './FacebookExample';
+import MainUI from './MainUI';
 
 export default React.createClass({
   render() {
@@ -20,7 +20,7 @@ export default React.createClass({
   },
 
   renderScene(route, nav) {
-    return <FacebookExample />;
+    return <MainUI />;
   },
 });
 
