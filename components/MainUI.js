@@ -4,9 +4,11 @@ import {
     Text,
     View,
     ScrollView,
+    Navigator,
+    TouchableOpacity
 } from 'react-native';
 
-import FacebookTabBar from './FacebookTabBar';
+import FacebookTabBar from './../FacebookTabBar';
 import ScrollableTabView from 'react-native-scrollable-tab-view';
 
 //
@@ -18,6 +20,19 @@ const {
     TouchableHighlight,
     } = ReactNative;
 var DrawerLayout = require('react-native-drawer-layout');
+
+//
+import Menu from './Menu';
+import Home from './Home'
+import AnotherComponent from './AnotherComponent'
+
+import Icon from 'react-native-vector-icons/MaterialIcons';
+import { EventEmitter } from 'fbemitter';
+
+import navigationHelper from '../helpers/navigation';
+
+let _emitter = new EventEmitter();
+
 
 var DrawerLockModeSwitches = React.createClass({
 
@@ -54,6 +69,18 @@ export default React.createClass({
     };
   },
 
+  componentDidMount() {
+    var self = this;
+
+    _emitter.addListener('openMenu', () => {
+      self._drawer.open();
+    });
+
+    _emitter.addListener('back', () => {
+      self._navigator.pop();
+    });
+  },
+
   render() {
     const {
         drawerLockMode,
@@ -61,11 +88,44 @@ export default React.createClass({
 
     const navigationView = (
         <View style={[styles.container, {backgroundColor: '#fff'}]}>
-          <Text>Hello there!</Text>
-          <DrawerLockModeSwitches value={drawerLockMode} onValueChange={value => this.setState({drawerLockMode: value})} />
-          <TouchableHighlight onPress={() => this.drawer.closeDrawer()}>
-            <Text>Close drawer</Text>
-          </TouchableHighlight>
+          {/*
+           <Menu navigate={(route) => {
+           this._navigator.push(navigationHelper(route));
+           this._drawer.close()
+           }}/>
+
+           <Text>Hello there!</Text>
+           <DrawerLockModeSwitches value={drawerLockMode} onValueChange={value => this.setState({drawerLockMode: value})} />
+           <TouchableHighlight onPress={() => this.drawer.closeDrawer()}>
+           <Text>Close drawer</Text>
+           </TouchableHighlight>
+
+
+           <Navigator
+           ref={(ref) => this._navigator = ref}
+           configureScene={(route) => Navigator.SceneConfigs.FloatFromLeft}
+           initialRoute={{
+           id: 'Home',
+           title: 'Home',
+           index: 0
+           }}
+           renderScene={(route, navigator) => this._renderScene(route, navigator)}
+           navigationBar={
+           <Navigator.NavigationBar
+           style={styles.navBar}
+           routeMapper={NavigationBarRouteMapper} />
+           }
+           />
+
+           */}
+          <Menu navigate={(route) => {
+           this._navigator.push(navigationHelper(route));
+           this.drawer.closeDrawer()
+           }}/>
+
+
+
+
         </View>
     );
 
@@ -124,10 +184,77 @@ export default React.createClass({
           </ScrollView>
         </ScrollableTabView>
 
+
+        <Navigator
+            ref={(ref) => this._navigator = ref}
+            configureScene={(route) => Navigator.SceneConfigs.FloatFromLeft}
+            initialRoute={{
+                        id: 'Home',
+                        title: 'Home',
+                        index: 0
+                    }}
+            renderScene={(route, navigator) => this._renderScene(route, navigator)}
+            navigationBar={
+                        <Navigator.NavigationBar
+                            style={styles.navBar}
+                            routeMapper={NavigationBarRouteMapper} />
+                    }
+        />
+
       </DrawerLayout>
     );
   },
+
+  _renderScene(route, navigator) {
+    switch (route.id) {
+      case 'Home':
+        return ( <Home navigator={navigator}/> );
+
+      case 'AnotherComponent':
+        return ( <AnotherComponent navigator={navigator}/> );
+    }
+  }
 });
+
+const NavigationBarRouteMapper = {
+  LeftButton(route, navigator, index, navState) {
+    switch (route.id) {
+      case 'Home':
+        return (
+            <TouchableOpacity
+                style={styles.navBarLeftButton}
+                onPress={() => {_emitter.emit('openMenu')}}>
+              <Icon name='menu' size={25} color={'white'} />
+            </TouchableOpacity>
+        )
+      default:
+        return (
+            <TouchableOpacity
+                style={styles.navBarLeftButton}
+                onPress={() => {_emitter.emit('back')}}>
+              <Icon name='chevron-left' size={25} color={'white'} />
+            </TouchableOpacity>
+        )
+    }
+  },
+
+  RightButton(route, navigator, index, navState) {
+    return (
+        <TouchableOpacity
+            style={styles.navBarRightButton}>
+          <Icon name='more-vert' size={25} color={'white'} />
+        </TouchableOpacity>
+    )
+  },
+
+  Title(route, navigator, index, navState) {
+    return (
+        <Text style={[styles.navBarText, styles.navBarTitleText]}>
+          {route.title}
+        </Text>
+    )
+  }
+}
 
 const styles = StyleSheet.create({
   tabView: {

@@ -8,7 +8,7 @@ import {
   TouchableOpacity,
 } from 'react-native';
 
-import MainUI from './MainUI';
+import MainUI from './components/MainUI';
 
 export default React.createClass({
   render() {
